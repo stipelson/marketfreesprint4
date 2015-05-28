@@ -89,8 +89,9 @@
         </ul>
          <ul id="dropdown3" class="dropdown-content">
               <li><a href="vistas/crearProducto.php"> Mis<br> productos</a></li>
-               <li><a href="vistas/visualizarPedido.php"> Visualizar<br> Pedidos</a></li>
-               <li><a href="vistas/estadoCompras.php"> Mis<br> Compras</a></li>
+              <li><a href="vistas/visualizarPedido.php"> Visualizar<br> Pedidos</a></li>
+              <li><a href="vistas/estadoCompras.php"> Mis<br> Compras</a></li>
+              <li><a href="vistas/mostrarReportes.php"> Mis<br> Reportes</a></li>
               <li><a href="controladores/CoordinadorUsuario.php?user=<?php echo $userMod ?>" >Modificar mis datos</a></li>
               <li><a href="#modal7" class="modal-trigger">Cambiar<br> contrasena</a></li>
               <li><a href="scripts/salir.php">Salir</a></li>
