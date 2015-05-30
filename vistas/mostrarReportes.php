@@ -42,6 +42,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
   <script src="../assets/materialize/js/materialize.min.js"></script>
   <script src="../assets/js/styles.js"></script>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script src="../assets/js/jspdf.js"></script>
   <script src="../assets/js/graficasReportes.js"></script>
   <title>Desarrollo2</title>
 </head>
@@ -54,181 +55,284 @@ if(isset($_SESSION['exitoCrearCategoria'])){
   <?php #aca iba a $perfiles ?>
   <!--  #================================================================== -->
   <div class="container ">   
+    
     <br>
    
     <div id="grafica_resultado"></div>
-
+    <div id="grafica_resultado_pdf" style ="display:none;"></div>
     <?php 
       if(isset($_SESSION['reporteElegido'])){
         //echo $_SESSION['reporteElegido'];
 
         if(isset($_GET['resultado'])){
-          $resultadoObtenido = $_GET['resultado'];
-          $resultado = stripslashes($resultadoObtenido);
-          $resultado = urldecode($resultado);
-          $resultado = unserialize($resultado);
+          if($_SESSION['reporteElegido'] != 16 && $_SESSION['reporteElegido'] != 17 && $_SESSION['reporteElegido'] != 18){
+            $resultadoObtenido = $_GET['resultado'];
+            $resultado = stripslashes($resultadoObtenido);
+            $resultado = urldecode($resultado);
+            $resultado = unserialize($resultado);
+          }else{
+            $resultado = $_GET['resultado'];
+          }
          // var_dump($resultado);
 
           if(empty($resultado)){  
             echo'no se encontraron datos';
-          }
+          }else{
           
-          if($_SESSION['reporteElegido'] == 1){
-            /*foreach ($resultado as $valor) {
-              echo "<br>".$valor['cantidad'];  
-            }*/
-            echo "<script>
+            if($_SESSION['reporteElegido'] == 1){
+              /*foreach ($resultado as $valor) {
+                echo "<br>".$valor['cantidad'];  
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaReporteCantidadUsuarios(".json_encode($resultado).");
+                    </script>";
+
+              echo "<button id='genrapdf2' >Generar PDF</button>";
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
                     reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaReporteCantidadUsuarios(".json_encode($resultado).");
-                  </script>";
-          }else if($_SESSION['reporteElegido'] == 2){
-            $ganancias = array();
-            $usuario = array();
-           
-            foreach ($resultado as $valor) {
-              //echo "<br>"."nombre: ".$valor['usuario_username']." ganancias: ".($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje'];  
+                    reporte.graficaReporteCantidadUsuariosPDF(".json_encode($resultado).");
+                  });
+                  </script>";      
+            }else if($_SESSION['reporteElegido'] == 2){
+              $ganancias = array();
+              $usuario = array();
+              foreach ($resultado as $valor) {
+                //echo "<br>"."nombre: ".$valor['usuario_username']." ganancias: ".($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje'];  
+                
+                if(in_array($valor['usuario_username'], $usuario) == false){
+                  array_push($usuario, $valor['usuario_username']);
+                  array_push($ganancias, ($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje']);
+
+                }else{
+                  $indice = array_search($valor['usuario_username'], $usuario);
+                  $ganancias[$indice] = ($ganancias[$indice]+(($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje']));
+                }  
+              }
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaGananciasPorVendedor(".json_encode($usuario).", ".json_encode($ganancias).");
+                    </script>";
               
-              if(in_array($valor['usuario_username'], $usuario) == false){
-                array_push($usuario, $valor['usuario_username']);
-                array_push($ganancias, ($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje']);
+              echo "<button id='genrapdf2' >Generar PDF</button>";
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaGananciasPorVendedorPDF(".json_encode($usuario).", ".json_encode($ganancias).");
+                  });
+                  </script>";
 
-              }else{
-                $indice = array_search($valor['usuario_username'], $usuario);
-                $ganancias[$indice] = ($ganancias[$indice]+(($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje']));
-              }  
+            }else if($_SESSION['reporteElegido'] == 3){
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaVendedorVsCantidadVentas(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaVendedorVsCantidadVentasPDF(".json_encode($resultado).");
+                  });
+                  </script>";      
+            }else if($_SESSION['reporteElegido'] == 4){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."estado: ".$valor['estado']." cantidad: ".$valor['cantidad'];  
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaComprasAprobadasVsCantidad(".json_encode($resultado).");
+                    </script>";
+
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaComprasAprobadasVsCantidadPDF(".json_encode($resultado).");
+                  });
+                  </script>";  
+            }else if($_SESSION['reporteElegido'] == 5){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."nombre: ".$valor['nombre']." nick: ".$valor['usuario_username']." valor: ".$valor['valor_unitario']." cantidad: ".$valor['cantidad'];  
+              }*/
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaArticulosPorAprobarOEnviar(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Articulos Pendientes', 'ArticulosPorAprobarOEnviar.pdf');
+                  });
+                  </script>";        
+
+            }else if($_SESSION['reporteElegido'] == 6){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."id: ".$valor['id']." cantidad: ".$valor['cantidad'];  
+              }*/
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaPedidosSolicitadosVsCantidad(".json_encode($resultado).");
+                    </script>";
+
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaPedidosSolicitadosVsCantidadPDF(".json_encode($resultado).");
+                  });
+                  </script>";       
+            }else if($_SESSION['reporteElegido'] == 7){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."id: ".$valor['id']." cantidad: ".$valor['cantidad'];  
+              }*/
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaPedidosEnviadosVsCantidad(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaPedidosEnviadosVsCantidadPDF(".json_encode($resultado).");
+                  });
+                  </script>";        
+
+            }else if($_SESSION['reporteElegido'] == 8){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."usuario: ".$valor['usuario_username']." ganancias: ".($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje'];
+              }*/
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaGananciasPorProductosVendidos(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaGananciasPorProductosVendidosPDF(".json_encode($resultado).");
+                  });
+                  </script>"; 
+
+            }else if($_SESSION['reporteElegido'] == 9){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."usuario: ".$valor['nombre_usuario']." nombre: ".$valor['nombre']." ".$valor['apellidos'];
+              }*/
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaCompradoresDeMisProductos(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Mis Compradores', 'CompradoresDeMisProductos.pdf');
+                  });
+                  </script>";      
+            }else if($_SESSION['reporteElegido'] == 10){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaMisCompras(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";       
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Mis Compras', 'MisCompras.pdf');
+                  });
+                  </script>";       
+
+            }else if($_SESSION['reporteElegido'] == 11){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad']." estado: ".$valor['estado']." vendedor: ".$valor['usuario_username'];
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaArticulosPendiaentes(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";       
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Mis Compras Pendientes', 'ArticulosPendiaentes.pdf');
+                  });
+                  </script>";        
+
+            }else if($_SESSION['reporteElegido'] == 12){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaMisProductos(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";       
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Mis Productos', 'MisProductos.pdf');
+                  });
+                  </script>";       
+
+            }else if($_SESSION['reporteElegido'] == 13){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaMisProductosSinVender(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";       
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Mis Productos Disponibles', 'MisProductosSinVender.pdf');
+                  });
+                  </script>";        
+
+            }else if($_SESSION['reporteElegido'] == 14){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."categoria: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
+              }*/
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaMisProductosPorCategoria(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";      
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.graficaMisProductosPorCategoriaPDF(".json_encode($resultado).");
+                  });
+                  </script>";   
+            }else if($_SESSION['reporteElegido'] == 15){
+              /*foreach ($resultado as $valor) {
+                echo "<br>"."usuario: ".$valor['nombre_usuario']." nombre: ".$valor['nombre']." ".$valor['apellidos'];
+              }*/
+
+              echo "<script>
+                      reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                      reporte.graficaMisSeguidores(".json_encode($resultado).");
+                    </script>";
+              echo "<button id='genrapdf2' >Generar PDF</button>";       
+              echo "<script>
+                  $( '#genrapdf2' ).click(function() {
+                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
+                    reporte.generarTablaPDF('Reporte Listado de Mis Seguidores', 'MisSeguidores.pdf');
+                  });
+                  </script>";           
             }
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaGananciasPorVendedor(".json_encode($usuario).", ".json_encode($ganancias).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 3){
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaVendedorVsCantidadVentas(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 4){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."estado: ".$valor['estado']." cantidad: ".$valor['cantidad'];  
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaComprasAprobadasVsCantidad(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 5){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."nombre: ".$valor['nombre']." nick: ".$valor['usuario_username']." valor: ".$valor['valor_unitario']." cantidad: ".$valor['cantidad'];  
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaArticulosPorAprobarOEnviar(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 6){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."id: ".$valor['id']." cantidad: ".$valor['cantidad'];  
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaPedidosSolicitadosVsCantidad(".json_encode($resultado).");
-                  </script>";
-          }else if($_SESSION['reporteElegido'] == 7){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."id: ".$valor['id']." cantidad: ".$valor['cantidad'];  
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaPedidosEnviadosVsCantidad(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 8){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."usuario: ".$valor['usuario_username']." ganancias: ".($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje'];
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaGananciasPorProductosVendidos(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 9){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."usuario: ".$valor['nombre_usuario']." nombre: ".$valor['nombre']." ".$valor['apellidos'];
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaCompradoresDeMisProductos(".json_encode($resultado).");
-                  </script>";
-          }else if($_SESSION['reporteElegido'] == 10){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
-            }*/
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaMisCompras(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 11){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad']." estado: ".$valor['estado']." vendedor: ".$valor['usuario_username'];
-            }*/
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaArticulosPendiaentes(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 12){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
-            }*/
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaMisProductos(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 13){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."nombre: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
-            }*/
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaMisProductosSinVender(".json_encode($resultado).");
-                  </script>";
-
-          }else if($_SESSION['reporteElegido'] == 14){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."categoria: ".$valor['nombre']." cantidad: ".$valor['cantidad'];
-            }*/
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaMisProductosPorCategoria(".json_encode($resultado).");
-                  </script>";
-
-
-          }else if($_SESSION['reporteElegido'] == 15){
-            /*foreach ($resultado as $valor) {
-              echo "<br>"."usuario: ".$valor['nombre_usuario']." nombre: ".$valor['nombre']." ".$valor['apellidos'];
-            }*/
-
-            echo "<script>
-                    reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
-                    reporte.graficaMisSeguidores(".json_encode($resultado).");
-                  </script>";
-          }else if($_SESSION['reporteElegido'] == 16){
-            
-          }else if($_SESSION['reporteElegido'] == 17){
-            
-          }else if($_SESSION['reporteElegido'] == 18){
-            
           }
         }
       }
@@ -249,7 +353,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
         <form action="../controladores/CoordinadorReportes.php" method="POST">
           <div class="row">
             <div class="input-field col s12">                
-              <select id ="reporteElegido" name = "reporteElegido">	
+              <select id ="reporteElegido" name = "reporteElegido" class="browser-default">	
                 <?php  
                   if($_SESSION['permisoDeGestionarPerfiles'] == 1 && $_SESSION['permisoDeGestionarUsuarios'] == 1 && $_SESSION['permisoDeVender'] == 1){
                     //El sistema mostrará al administrador por medio del Dashboard una gráfica de pastel, mostrando el número total de usuarios registrados en la aplicación, diferenciando en ella los usuarios dados de baja y los usuarios activos.
@@ -298,20 +402,10 @@ if(isset($_SESSION['exitoCrearCategoria'])){
                 <option value="15">mis seguidores</option>
                 
                 <?php 
-                  if($_SESSION['permisoDeVender'] == 1){ 
+                  /*if($_SESSION['permisoDeVender'] == 1){ 
                     //El sistema generará un documento en formato pdf que contendrá todos la informacion relacionada con la venta de ese vendedor, dicha información es la que se ha generado previamente en el Dashboard (listas, diagramas de barras, de pastel, etc.).-->
                     echo '<option value="16">generar pdf para mis reportes</option>';
-                  }
-                ?>
-
-                <!--El sistema generará un documento en formato pdf que contendrá todos la informacion relacionada con la compra de ese comprador, dicha información es la que se ha generado previamente en el Dashboard (listas, diagramas de barras, de pastel, etc.).-->
-                <option value="17">generar pdf para mis reportes</option>
-                
-                <?php  
-                  if($_SESSION['permisoDeGestionarPerfiles'] == 1 && $_SESSION['permisoDeGestionarUsuarios'] == 1 && $_SESSION['permisoDeVender'] == 1){
-                    //El sistema generará un documento en formato pdf que contendrá todos la informacion relacionada con actividades administrativas, dicha información es la que se ha generado previamente en el Dashboard (listas, diagramas de barras, de pastel, etc.).
-                    echo '<option value="18">generar pdf para mis reportes</option>';
-                  }  
+                  }*/
                 ?>
               </select>
               <!--<label for="reporteElegido">Reporte</label>-->

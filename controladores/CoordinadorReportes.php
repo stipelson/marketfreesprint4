@@ -145,14 +145,7 @@ if(isset($_POST['reporteElegido'])){
     	$resultado = serialize($reporte->obtenerMisProductosPorCategoria());
 
     }else if($_POST['reporteElegido'] == 15){
-    	$resultado = serialize($reporte->obtenerMisSeguidores());
-    	
-    }else if($_POST['reporteElegido'] == 16){
-
-    }else if($_POST['reporteElegido'] == 17){
-
-    }else if($_POST['reporteElegido'] == 18){
-
+    	$resultado = serialize($reporte->obtenerMisSeguidores());	
     }
 
 	$resultado = urlencode($resultado);

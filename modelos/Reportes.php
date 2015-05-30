@@ -23,7 +23,7 @@ class Reportes
 		R::selectDatabase('default');#Se selecciona la BD por default (tienda.sql)
 		$resultado = R::getAll( 'SELECT p.usuario_username, c.porcentaje, p.valor_unitario, d.cantidad  
 								FROM factura f, detalle d, producto p, comision c 
-								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.id_comision = c.id
+								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.id_comision = c.id AND (f.estado ="Recibido" OR f.estado = "enviado")
 								GROUP BY p.id
 								ORDER BY p.usuario_username');
 		R::close();#se cierra el almacén de Beans
@@ -35,7 +35,7 @@ class Reportes
 		R::selectDatabase('default');#Se selecciona la BD por default (tienda.sql)
 		$resultado = R::getAll( 'SELECT p.usuario_username, SUM(d.cantidad) AS cantidad 
 								FROM factura f, detalle d, producto p, comision c 
-								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.id_comision = c.id 
+								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.id_comision = c.id AND (f.estado ="Recibido" OR f.estado = "enviado")
 								GROUP BY p.usuario_username 
 								ORDER BY p.usuario_username' );
 		R::close();#se cierra el almacén de Beans
@@ -109,7 +109,7 @@ class Reportes
 								WHERE id IN(
 								SELECT f.id_cliente  
 								FROM factura f, detalle d, producto p
-								WHERE f.id = d.id_factura AND p.id = d.id_producto AND p.usuario_username = ?
+								WHERE f.id = d.id_factura AND p.id = d.id_producto AND(f.estado = "enviado" OR f.estado = "Recibido") AND p.usuario_username = ?
 								GROUP BY f.id_cliente)', [$usuario_username]);
 		R::close();#se cierra el almacén de Beans
 		return $resultado;	
