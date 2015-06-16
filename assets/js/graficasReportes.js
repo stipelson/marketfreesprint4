@@ -3,7 +3,7 @@ function GraficasReportes(reporte){
 	var reporte = reporte;
 
 	this.graficaReporteCantidadUsuarios = function(resultado){
-		
+
 		google.load('visualization', '1.0', {'packages':['corechart']});
 		google.setOnLoadCallback(dibujaGrafica);
 
@@ -13,7 +13,7 @@ function GraficasReportes(reporte){
 			datos = [];
 			datos.push(['Usuarios Dados de Baja '+resultado[0].cantidad , parseInt(resultado[0].cantidad)]);
 			datos.push(['Usuarios Activos '+resultado[1].cantidad , parseInt(resultado[1].cantidad)]);
-				
+
 			data.addColumn('string', 'Dadods de baja');
 			data.addColumn('number', 'Activos');
 			data.addRows(datos);
@@ -28,16 +28,16 @@ function GraficasReportes(reporte){
 	}
 
 	this.graficaReporteCantidadUsuariosPDF = function(resultado){
-		
+
 		google.load('visualization', '1.0', {'packages':['corechart']});
-		
+
 		function dibujaGraficaPDF() {
 
 			var data = new google.visualization.DataTable();
 			datos = [];
 			datos.push(['Usuarios Dados de Baja '+resultado[0].cantidad , parseInt(resultado[0].cantidad)]);
 			datos.push(['Usuarios Activos '+resultado[1].cantidad , parseInt(resultado[1].cantidad)]);
-				
+
 			data.addColumn('string', 'Dadods de baja');
 			data.addColumn('number', 'Activos');
 			data.addRows(datos);
@@ -49,12 +49,12 @@ function GraficasReportes(reporte){
 			var grafica = new google.visualization.PieChart(document.getElementById('grafica_resultado'));
 			google.visualization.events.addListener(grafica, 'ready', function () {
 			     	alert("OK");
-			     	var doc = new jsPDF();				  
+			     	var doc = new jsPDF();
 					doc.setFontSize(20);
 					doc.text(25, 25, "Reporte Cantidad Usuarios Activos VS Dados de Baja");
-					doc.addImage(grafica.getImageURI(), 'PNG', 0, 40, 240, 170);	
+					doc.addImage(grafica.getImageURI(), 'PNG', 0, 40, 240, 170);
 
-				    doc.save("ReporteCantidadUsuariosPDF.pdf");			 	
+				    doc.save("ReporteCantidadUsuariosPDF.pdf");
 		    });
 			grafica.draw(data, opciones);
 		}
@@ -69,32 +69,32 @@ function GraficasReportes(reporte){
 			     // Tabla de datos: valores y etiquetas de la grÃ¡fica
 			    datos = [['Nombre de Usuario', 'Ganancias']];
 				for (indice in usuario_username) {
-				 	datos.push([usuario_username[indice], ganancias[indice]]);   
+				 	datos.push([usuario_username[indice], ganancias[indice]]);
 				}
-				
+
 				 var data = google.visualization.arrayToDataTable(datos);
 			     var options = {
 			       title: 'Ganacias Obtenidas Por Vendedor'
 			     }
-			     
+
 			     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado'));
 				 google.visualization.events.addListener(grafica, 'ready', function () {
-			     
+
 		    });
 				 grafica.draw(data, options);
-		    }    
+		    }
 	}
 
 	this.graficaGananciasPorVendedorPDF = function(usuario_username, ganancias){
-			
+
 			google.load("visualization", "1", {packages:["corechart"]});
 		    function dibujarGraficoPDF() {
-		    		
+
 		    	datos = [['Nombre de Usuario', 'Ganancias']];
 				for (indice in usuario_username) {
-				 	datos.push([usuario_username[indice], ganancias[indice]]);   
+				 	datos.push([usuario_username[indice], ganancias[indice]]);
 				}
-				
+
 				 var data = google.visualization.arrayToDataTable(datos);
 			     var options = {
 			       title: 'Ganacias Obtenidas Por Vendedor'
@@ -102,12 +102,12 @@ function GraficasReportes(reporte){
 			     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 				 google.visualization.events.addListener(grafica, 'ready', function () {
 			     	alert("OK");
-			     	var doc = new jsPDF();				  
+			     	var doc = new jsPDF();
 					doc.setFontSize(20);
 					doc.text(25, 25, "Reporte Ganancias Obtenidas Por Vendedor");
-					doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+					doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-				    doc.save("GananciasPorVendedorPDF.pdf");			 	
+				    doc.save("GananciasPorVendedorPDF.pdf");
 		    });
 				 grafica.draw(data, options);
 		    }
@@ -123,15 +123,15 @@ function GraficasReportes(reporte){
 		    datos = [['Nombre de Usuario', 'Cantidad']];
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
-			 	datos.push([resultado[indice].usuario_username, cantidad]);   
+			 	datos.push([resultado[indice].usuario_username, cantidad]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Cantidad de Ventas Realizadas Por Vendedor'
 		     }
 		     // Dibujar el grÃ¡fico
-		     new google.visualization.ColumnChart( 
+		     new google.visualization.ColumnChart(
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
@@ -141,13 +141,13 @@ function GraficasReportes(reporte){
 
 	    google.load("visualization", "1", {packages:["corechart"]});
 	    function dibujarGraficoPDF() {
-	    		
+
 	    	datos = [['Nombre de Usuario', 'Cantidad']];
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
-			 	datos.push([resultado[indice].usuario_username, cantidad]);   
+			 	datos.push([resultado[indice].usuario_username, cantidad]);
 			}
-						
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Cantidad de Ventas Realizadas Por Vendedor'
@@ -155,12 +155,12 @@ function GraficasReportes(reporte){
 		     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 			 google.visualization.events.addListener(grafica, 'ready', function () {
 		     	alert("OK");
-		     	var doc = new jsPDF();				  
+		     	var doc = new jsPDF();
 				doc.setFontSize(20);
 				doc.text(25, 25, "Reporte Cantidad de Ventas Realizadas Por Vendedor");
-				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-			    doc.save("VendedorVsCantidadVentasPDF.pdf");			 	
+			    doc.save("VendedorVsCantidadVentasPDF.pdf");
 	    });
 			 grafica.draw(data, options);
 	    }
@@ -168,7 +168,7 @@ function GraficasReportes(reporte){
 	}
 
 	this.graficaComprasAprobadasVsCantidad = function(resultado){
-		
+
 		google.load("visualization", "1", {packages:["corechart"]});
 	    google.setOnLoadCallback(dibujarGrafico);
 	    function dibujarGrafico() {
@@ -176,31 +176,31 @@ function GraficasReportes(reporte){
 		    datos = [['Estado', 'Cantidad']];
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
-			 	datos.push([resultado[indice].estado, cantidad]);   
+			 	datos.push([resultado[indice].estado, cantidad]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Cantidad de Compras Aprobadas'
 		     }
 		     // Dibujar el grÃ¡fico
-		     new google.visualization.ColumnChart( 
+		     new google.visualization.ColumnChart(
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
 	}
 
 	this.graficaComprasAprobadasVsCantidadPDF = function(resultado){
-		
+
 		google.load("visualization", "1", {packages:["corechart"]});
 	    function dibujarGraficoPDF() {
-	    		
+
 	    	datos = [['Estado', 'Cantidad']];
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
-			 	datos.push([resultado[indice].estado, cantidad]);   
+			 	datos.push([resultado[indice].estado, cantidad]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Cantidad de Compras Aprobadas'
@@ -208,12 +208,12 @@ function GraficasReportes(reporte){
 		     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 			 google.visualization.events.addListener(grafica, 'ready', function () {
 		     	alert("OK");
-		     	var doc = new jsPDF();				  
+		     	var doc = new jsPDF();
 				doc.setFontSize(20);
 				doc.text(25, 25, "Reporte Cantidad de Compras Aprobadas");
-				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-			    doc.save("ComprasAprobadasVsCantidadPDF.pdf");			 	
+			    doc.save("ComprasAprobadasVsCantidadPDF.pdf");
 	    });
 			 grafica.draw(data, options);
 	    }
@@ -236,10 +236,10 @@ function GraficasReportes(reporte){
                     tr += '<td>'+resultado[indice].nombre+'</td><td>'+resultado[indice].usuario_username+'</td><td>'+resultado[indice].valor_unitario+'</td><td>'+resultado[indice].cantidad+'</td><td>'+parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario)+'</td>';
                     tr += '</tr>';
 				}
- 
+
                 tabla += tr;
                 tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html( tabla );
 	}
 	/*
@@ -276,7 +276,7 @@ function GraficasReportes(reporte){
 	}*/
 
 	this.graficaPedidosSolicitadosVsCantidad = function(resultado){
-		
+
 		google.load("visualization", "1", {packages:["corechart"]});
 	    google.setOnLoadCallback(dibujarGrafico);
 	    function dibujarGrafico() {
@@ -286,33 +286,33 @@ function GraficasReportes(reporte){
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
 			 	datos.push(["Venta "+id, cantidad]);
-			 	id++;   
+			 	id++;
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Mis Pedidos Solicitados'
 		     }
 		     // Dibujar el grÃ¡fico
-		     new google.visualization.ColumnChart( 
+		     new google.visualization.ColumnChart(
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
 	}
 
 	this.graficaPedidosSolicitadosVsCantidadPDF = function(resultado){
-		
+
 	    google.load("visualization", "1", {packages:["corechart"]});
 	    function dibujarGraficoPDF() {
-	    		
+
 	    	datos = [['Numero Pedido', 'Cantidad']];
 		    var id = 1;
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
 			 	datos.push(["Venta "+id, cantidad]);
-			 	id++;   
+			 	id++;
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Mis Pedidos Solicitados'
@@ -320,12 +320,12 @@ function GraficasReportes(reporte){
 		     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 			 google.visualization.events.addListener(grafica, 'ready', function () {
 		     	alert("OK");
-		     	var doc = new jsPDF();				  
+		     	var doc = new jsPDF();
 				doc.setFontSize(20);
 				doc.text(45, 25, "Reporte Mis Pedidos Solicitados");
-				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-			    doc.save("PedidosSolicitadosVsCantidadPDF.pdf");			 	
+			    doc.save("PedidosSolicitadosVsCantidadPDF.pdf");
 	    });
 			 grafica.draw(data, options);
 	    }
@@ -333,7 +333,7 @@ function GraficasReportes(reporte){
 	}
 
 	this.graficaPedidosEnviadosVsCantidad = function(resultado){
-		
+
 		google.load("visualization", "1", {packages:["corechart"]});
 	    google.setOnLoadCallback(dibujarGrafico);
 	    function dibujarGrafico() {
@@ -343,33 +343,33 @@ function GraficasReportes(reporte){
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
 			 	datos.push(["Pedido "+id, cantidad]);
-			 	id++;   
+			 	id++;
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Mis Pedidos Enviados'
 		     }
 		     // Dibujar el grÃ¡fico
-		     new google.visualization.ColumnChart( 
+		     new google.visualization.ColumnChart(
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
 	}
 
 	this.graficaPedidosEnviadosVsCantidadPDF = function(resultado){
-		
+
 	    google.load("visualization", "1", {packages:["corechart"]});
 	    function dibujarGraficoPDF() {
-	    		
+
 	    	datos = [['Numero Pedido', 'Cantidad']];
 		    var id = 1;
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
 			 	datos.push(["Pedido "+id, cantidad]);
-			 	id++;   
+			 	id++;
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Mis Pedidos Enviados'
@@ -377,12 +377,12 @@ function GraficasReportes(reporte){
 		     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 			 google.visualization.events.addListener(grafica, 'ready', function () {
 		     	alert("OK");
-		     	var doc = new jsPDF();				  
+		     	var doc = new jsPDF();
 				doc.setFontSize(20);
 				doc.text(45, 25, "Reporte Mis Pedidos Enviados");
-				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-			    doc.save("PedidosEnviadosVsCantidadPDF.pdf");			 	
+			    doc.save("PedidosEnviadosVsCantidadPDF.pdf");
 		    });
 			 grafica.draw(data, options);
 	    }
@@ -390,7 +390,7 @@ function GraficasReportes(reporte){
 	}
 
 	this.graficaGananciasPorProductosVendidos = function(resultado){
-		
+
 		google.load("visualization", "1", {packages:["corechart"]});
 	    google.setOnLoadCallback(dibujarGrafico);
 	    function dibujarGrafico() {
@@ -398,31 +398,31 @@ function GraficasReportes(reporte){
 		    datos = [['Nombre', 'Ganancia']];
 			for (indice in resultado) {
 				ganancia = (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))*parseInt(resultado[indice].porcentaje);
-			 	datos.push([resultado[indice].nombre, ganancia]);  
+			 	datos.push([resultado[indice].nombre, ganancia]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Ganancia por Producto Vendido'
 		     }
 		     // Dibujar el grÃ¡fico
-		     new google.visualization.ColumnChart( 
+		     new google.visualization.ColumnChart(
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
 	}
 
 	this.graficaGananciasPorProductosVendidosPDF = function(resultado){
-		
+
 	    google.load("visualization", "1", {packages:["corechart"]});
 	    function dibujarGraficoPDF() {
-	    		
+
 	    	datos = [['Nombre', 'Ganancia']];
 			for (indice in resultado) {
 				ganancia = (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))*parseInt(resultado[indice].porcentaje);
-			 	datos.push([resultado[indice].nombre, ganancia]);  
+			 	datos.push([resultado[indice].nombre, ganancia]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Ganancia por Producto Vendido'
@@ -430,12 +430,12 @@ function GraficasReportes(reporte){
 		     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 			 google.visualization.events.addListener(grafica, 'ready', function () {
 		     	alert("OK");
-		     	var doc = new jsPDF();				  
+		     	var doc = new jsPDF();
 				doc.setFontSize(20);
 				doc.text(45, 25, "Reporte Ganancia por Producto Vendido");
-				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-			    doc.save("GananciasPorProductosVendidosPDF.pdf");			 	
+			    doc.save("GananciasPorProductosVendidosPDF.pdf");
 		    });
 			 grafica.draw(data, options);
 	    }
@@ -460,7 +460,7 @@ function GraficasReportes(reporte){
 
             tabla += tr;
             tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html(tabla);
 	}
 
@@ -482,7 +482,7 @@ function GraficasReportes(reporte){
 
             tabla += tr;
             tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html(tabla);
 	}
 
@@ -505,7 +505,7 @@ function GraficasReportes(reporte){
 
             tabla += tr;
             tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html(tabla);
 		//alert("reporte1");
 	}
@@ -528,7 +528,7 @@ function GraficasReportes(reporte){
 
             tabla += tr;
             tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html(tabla);
 		//alert("reporte1");
 	}
@@ -551,7 +551,7 @@ function GraficasReportes(reporte){
 
             tabla += tr;
             tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html(tabla);
 		//alert("reporte1");
 	}
@@ -565,15 +565,15 @@ function GraficasReportes(reporte){
 		    datos = [['Nombre Categoria', 'Cantidad']];
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
-			 	datos.push([resultado[indice].nombre, cantidad]);  
+			 	datos.push([resultado[indice].nombre, cantidad]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Cantidad de Productos por Categoria'
 		     }
 		     // Dibujar el grÃ¡fico
-		     new google.visualization.ColumnChart( 
+		     new google.visualization.ColumnChart(
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
@@ -584,13 +584,13 @@ function GraficasReportes(reporte){
 
 	    google.load("visualization", "1", {packages:["corechart"]});
 	    function dibujarGraficoPDF() {
-	    		
+
 	    	datos = [['Nombre Categoria', 'Cantidad']];
 			for (indice in resultado) {
 				cantidad = parseInt(resultado[indice].cantidad);
-			 	datos.push([resultado[indice].nombre, cantidad]);  
+			 	datos.push([resultado[indice].nombre, cantidad]);
 			}
-			
+
 			 var data = google.visualization.arrayToDataTable(datos);
 		     var options = {
 		       title: 'Cantidad de Productos por Categoria'
@@ -598,12 +598,12 @@ function GraficasReportes(reporte){
 		     var grafica = new google.visualization.ColumnChart(document.getElementById('grafica_resultado_pdf'));
 			 google.visualization.events.addListener(grafica, 'ready', function () {
 		     	alert("OK");
-		     	var doc = new jsPDF();				  
+		     	var doc = new jsPDF();
 				doc.setFontSize(20);
 				doc.text(35, 25, "Reporte Cantidad de Productos por Categoria");
-				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);	
+				doc.addImage(grafica.getImageURI(), 'PNG', 15, 40, 180, 60);
 
-			    doc.save("MisProductosPorCategoriaPDF.pdf");			 	
+			    doc.save("MisProductosPorCategoriaPDF.pdf");
 		    });
 			 grafica.draw(data, options);
 	    }
@@ -612,7 +612,7 @@ function GraficasReportes(reporte){
 	}
 
 	this.graficaMisSeguidores = function(resultado){
-		
+
 		var tabla = '<table class="hoverable responsive-table centered indigo lighten-5">';
             tabla += '<caption>Listado de Mis Seguidores</caption>';
             tabla += '<thead>';
@@ -630,7 +630,7 @@ function GraficasReportes(reporte){
 
             tabla += tr;
             tabla += '</tbody></table>';
- 
+
         $('#grafica_resultado').html(tabla);
 		//alert("reporte1");
 	}
