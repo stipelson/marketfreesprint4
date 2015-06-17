@@ -95,7 +95,7 @@ function GraficasReportes(reporte){
 		    tabla += '<tr>';
 
 		    for (indice in usuario_username) {
-		    	totalTodo += ganancias[indice]
+		    	totalTodo += ganancias[indice];
 		    }
 
 		    tabla += '<th>Total: </th><th>'+totalTodo+'</th>';
@@ -348,6 +348,38 @@ function GraficasReportes(reporte){
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
+
+	    var valorTotal = 0;
+	    var tabla = '<br><table class="hoverable responsive-table centered indigo lighten-5">';
+	    tabla += '<caption><b>Total pedidos solicitados</b><br></caption>';
+	    tabla += '<thead>';
+	    tabla += '<tr>';
+	    tabla += '<th>Venta </th><th>Total</th>';
+	    tabla += '</tr>';
+	    tabla += '</thead>';
+	    tabla += '<tbody>';
+
+	    tr = '';
+	    var ids = 1;
+	    for (indice in resultado) {
+	    	valorTotal += parseInt(resultado[indice].cantidad);
+	    	tr += '<tr>';
+	    	tr += '<td>Venta '+ids+'</td><td>'+parseInt(resultado[indice].cantidad)+'</td>';
+	    	tr += '</tr>';
+	    	ids ++ ;
+	    }
+
+
+	    tabla += tr;
+	    tabla += '<tr><td><b>Suma total</b></td><td>'+valorTotal+'</td></tr>';
+
+	    tabla += '</tbody></table><br><br>';
+
+
+	    $("#caja").append(tabla);
+
+
+
 	}
 
 	this.graficaPedidosSolicitadosVsCantidadPDF = function(resultado){
@@ -405,6 +437,38 @@ function GraficasReportes(reporte){
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
+
+	    var valorTotal = 0;
+	    var tabla = '<br><table class="hoverable responsive-table centered indigo lighten-5">';
+	    tabla += '<caption><b>Total pedidos enviados</b><br></caption>';
+	    tabla += '<thead>';
+	    tabla += '<tr>';
+	    tabla += '<th>Venta </th><th>Total</th>';
+	    tabla += '</tr>';
+	    tabla += '</thead>';
+	    tabla += '<tbody>';
+
+	    tr = '';
+	    var ids = 1;
+	    for (indice in resultado) {
+	    	valorTotal += parseInt(resultado[indice].cantidad);
+	    	tr += '<tr>';
+	    	tr += '<td>Pedido '+ids+'</td><td>'+parseInt(resultado[indice].cantidad)+'</td>';
+	    	tr += '</tr>';
+	    	ids ++ ;
+	    }
+
+
+	    tabla += tr;
+	    tabla += '<tr><td><b>Suma total</b></td><td>'+valorTotal+'</td></tr>';
+
+	    tabla += '</tbody></table><br><br>';
+
+
+	    $("#caja").append(tabla);
+
+
+
 	}
 
 	this.graficaPedidosEnviadosVsCantidadPDF = function(resultado){
@@ -460,6 +524,26 @@ function GraficasReportes(reporte){
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
+	    	    var totalTodo = 0;
+		    var tabla = '<br><table class="hoverable responsive-table centered indigo lighten-5">';
+		    tabla += '<caption><b>Ganancia total por productos vendidos</b><br></caption>';
+		    tabla += '<thead>';
+		    tabla += '<tr>';
+
+		    for (indice in resultado) {
+		    	totalTodo += (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))*parseInt(resultado[indice].porcentaje);
+		    }
+
+		    tabla += '<th>Total: </th><th>'+totalTodo+'</th>';
+		    tabla += '</tr>';
+		    tabla += '</thead>';
+		    tabla += '<tbody>';
+		    tabla += '</tbody></table><br><br>';
+
+
+		    $("#caja").append(tabla);
+
+
 	}
 
 	this.graficaGananciasPorProductosVendidosPDF = function(resultado){
