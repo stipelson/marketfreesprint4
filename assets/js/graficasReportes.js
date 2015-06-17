@@ -524,6 +524,7 @@ function GraficasReportes(reporte){
             tabla += '</thead>';
             tabla += '<tbody>';
             tr = '';
+
             for (indice in resultado) {
 				tr += '<tr>';
                 tr += '<td>'+resultado[indice].nombre+'</td><td>'+resultado[indice].cantidad+'</td>';

@@ -70,7 +70,7 @@ class Reportes
 		R::selectDatabase('default');#Se selecciona la BD por default (tienda.sql)
 		$resultado = R::getAll( 'SELECT f.id, SUM(d.cantidad) cantidad
 								FROM factura f, detalle d, producto p
-								WHERE f.id = d.id_factura AND p.id = d.id_producto AND p.usuario_username = ?
+								WHERE f.id = d.id_factura AND p.id = d.id_producto AND p.usuario_username = ? AND f.estado != "pendiente"
 								GROUP BY f.id
 								ORDER BY p.usuario_username', [$usuario_username]);
 		R::close();#se cierra el almacén de Beans
@@ -120,8 +120,8 @@ class Reportes
 		R::selectDatabase('default');#Se selecciona la BD por default (tienda.sql)
 		$resultado = R::getAll( 'SELECT p.nombre, d.cantidad
 								FROM factura f, detalle d, producto p, usuario u
-								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.id_cliente = u.id AND f.estado = "Recibido" AND p.usuario_username = ?
-								GROUP BY p.id
+								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.estado = "Recibido" AND u.id = f.id_cliente AND u.nombre_usuario = ?
+								GROUP BY d.id
 								ORDER BY p.usuario_username', [$usuario_username]);
 		R::close();#se cierra el almacén de Beans
 		return $resultado;
