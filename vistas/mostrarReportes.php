@@ -103,11 +103,11 @@ if(isset($_SESSION['exitoCrearCategoria'])){
 
                 if(in_array($valor['usuario_username'], $usuario) == false){
                   array_push($usuario, $valor['usuario_username']);
-                  array_push($ganancias, ($valor['valor_unitario']*$valor['cantidad'])*($valor['porcentaje']));
+                  array_push($ganancias, ($valor['valor_unitario']*$valor['cantidad'])*($valor['porcentaje'] / 100));
 
                 }else{
                   $indice = array_search($valor['usuario_username'], $usuario);
-                  $ganancias[$indice] = ($ganancias[$indice]+(($valor['valor_unitario']*$valor['cantidad'])*($valor['porcentaje'] )));
+                  $ganancias[$indice] = ($ganancias[$indice]+(($valor['valor_unitario']*$valor['cantidad'])*($valor['porcentaje'] / 100)));
                 }
               }
 
@@ -359,7 +359,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
                     //El sistema mostrará al administrador por medio del Dashboard una gráfica de pastel, mostrando el número total de usuarios registrados en la aplicación, diferenciando en ella los usuarios dados de baja y los usuarios activos.
                     echo '<option value="1">Usarios activos vs usuarios dados de Baja</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras, en donde se apreciaran las ganancias obtenidas por las ventas de los usuarios vendedores.
-                    echo '<option value="2">Ganancias obtenidas de cada vendedor</option>';
+                    echo '<option value="2">Ganancia producida</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras donde se apreciará la cantidad de ventas por vendedor. (vendedor vs cantidad de ventas).
                     echo '<option value="3">Flujo de ventas</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras (compras aprobadas vs cantidad), evidenciando la cantidad de compras que ha aprobado.
