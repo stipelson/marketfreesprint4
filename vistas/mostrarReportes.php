@@ -103,11 +103,11 @@ if(isset($_SESSION['exitoCrearCategoria'])){
 
                 if(in_array($valor['usuario_username'], $usuario) == false){
                   array_push($usuario, $valor['usuario_username']);
-                  array_push($ganancias, ($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje']);
+                  array_push($ganancias, ($valor['valor_unitario']*$valor['cantidad'])*($valor['porcentaje']/10));
 
                 }else{
                   $indice = array_search($valor['usuario_username'], $usuario);
-                  $ganancias[$indice] = ($ganancias[$indice]+(($valor['valor_unitario']*$valor['cantidad'])*$valor['porcentaje']));
+                  $ganancias[$indice] = ($ganancias[$indice]+(($valor['valor_unitario']*$valor['cantidad'])*($valor['porcentaje'] / 10)));
                 }
               }
 

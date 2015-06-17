@@ -69,6 +69,7 @@ function GraficasReportes(reporte){
 			     // Tabla de datos: valores y etiquetas de la grÃ¡fica
 			    datos = [['Nombre de Usuario', 'Ganancias']];
 				for (indice in usuario_username) {
+					var ganancia = ganancias[indice]
 				 	datos.push([usuario_username[indice], ganancias[indice]]);
 				}
 
