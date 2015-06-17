@@ -72,7 +72,6 @@ function GraficasReportes(reporte){
 			     // Tabla de datos: valores y etiquetas de la grÃ¡fica
 			    datos = [['Nombre de Usuario', 'Ganancias']];
 				for (indice in usuario_username) {
-					totalTodo += ganancias[indice]
 				 	datos.push([usuario_username[indice], ganancias[indice]]);
 				}
 
@@ -91,27 +90,22 @@ function GraficasReportes(reporte){
 		    }
 
 		    var tabla = '<br><table class="hoverable responsive-table centered indigo lighten-5">';
-                tabla += '<caption><b>Total ganancias obtenidas</b><br></caption>';
-                tabla += '<thead>';
-                tabla += '<tr>';
+		    tabla += '<caption><b>Total ganancias obtenidas</b><br></caption>';
+		    tabla += '<thead>';
+		    tabla += '<tr>';
 
-                for (indice in usuario_username) {
-					totalTodo += ganancias[indice]
-				}
+		    for (indice in usuario_username) {
+		    	totalTodo += ganancias[indice]
+		    }
 
-                tabla += '<th>Total</th><th>'+totalTodo+'</th>';
-                tabla += '</tr>';
-                tabla += '</thead>';
-                tabla += '<tbody>';
-                tabla += '</tbody></table><br><br>';
-
-
-	$("#caja").append(tabla);
+		    tabla += '<th>Total: </th><th>'+totalTodo+'</th>';
+		    tabla += '</tr>';
+		    tabla += '</thead>';
+		    tabla += '<tbody>';
+		    tabla += '</tbody></table><br><br>';
 
 
-
-
-
+		    $("#caja").append(tabla);
 
 	}
 
@@ -218,6 +212,32 @@ function GraficasReportes(reporte){
 		       document.getElementById('grafica_resultado')
 		     ).draw(data, options);
 	    }
+	    var valorTotal = 0;
+	    var tabla = '<br><table class="hoverable responsive-table centered indigo lighten-5">';
+	    tabla += '<caption><b>Total compras aprobadas</b><br></caption>';
+	    tabla += '<thead>';
+	    tabla += '<tr>';
+	    tabla += '<th>Compras: </th><th>Total</th>';
+	    tabla += '</tr>';
+	    tabla += '</thead>';
+	    tabla += '<tbody>';
+
+	    tr = '';
+	    for (indice in resultado) {
+	    	valorTotal += parseInt(resultado[indice].cantidad);
+	    	tr += '<tr>';
+	    	tr += '<td>'+resultado[indice].estado+'</td><td>'+parseInt(resultado[indice].cantidad)+'</td>';
+	    	tr += '</tr>';
+	    }
+
+
+	    tabla += tr;
+	    tabla += '<tr><td><b>Suma total</b></td><td>'+valorTotal+'</td></tr>';
+
+	    tabla += '</tbody></table><br><br>';
+
+
+	    $("#caja").append(tabla);
 	}
 
 	this.graficaComprasAprobadasVsCantidadPDF = function(resultado){
