@@ -59,6 +59,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
     <br>
 
     <div id="grafica_resultado"></div>
+    <div id="caja"></div>
     <div id="grafica_resultado_pdf" style ="display:none;"></div>
     <?php
       if(isset($_SESSION['reporteElegido'])){
@@ -123,6 +124,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
                     reporte.graficaGananciasPorVendedorPDF(".json_encode($usuario).", ".json_encode($ganancias).");
                   });
                   </script>";
+
 
             }else if($_SESSION['reporteElegido'] == 3){
 

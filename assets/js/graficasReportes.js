@@ -63,13 +63,16 @@ function GraficasReportes(reporte){
 
 	this.graficaGananciasPorVendedor = function(usuario_username, ganancias){
 
+
+		var totalTodo = 0;
+
 			google.load("visualization", "1", {packages:["corechart"]});
 		    google.setOnLoadCallback(dibujarGrafico);
 		    function dibujarGrafico() {
 			     // Tabla de datos: valores y etiquetas de la grÃ¡fica
 			    datos = [['Nombre de Usuario', 'Ganancias']];
 				for (indice in usuario_username) {
-					var ganancia = ganancias[indice]
+					totalTodo += ganancias[indice]
 				 	datos.push([usuario_username[indice], ganancias[indice]]);
 				}
 
@@ -82,8 +85,34 @@ function GraficasReportes(reporte){
 				 google.visualization.events.addListener(grafica, 'ready', function () {
 
 		    });
+
 				 grafica.draw(data, options);
+
 		    }
+
+		    var tabla = '<br><table class="hoverable responsive-table centered indigo lighten-5">';
+                tabla += '<caption><b>Total ganancias obtenidas</b><br></caption>';
+                tabla += '<thead>';
+                tabla += '<tr>';
+
+                for (indice in usuario_username) {
+					totalTodo += ganancias[indice]
+				}
+
+                tabla += '<th>Total</th><th>'+totalTodo+'</th>';
+                tabla += '</tr>';
+                tabla += '</thead>';
+                tabla += '<tbody>';
+                tabla += '</tbody></table><br><br>';
+
+
+	$("#caja").append(tabla);
+
+
+
+
+
+
 	}
 
 	this.graficaGananciasPorVendedorPDF = function(usuario_username, ganancias){
