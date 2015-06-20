@@ -44,7 +44,7 @@ Class CoordinadorNotificacion
 		try
 		{
 			R::selectDatabase('default');
-			$nombreVendedor = R::getCell( "SELECT producto.usuario_username FROM producto 
+			$nombreVendedor = R::getCell( "SELECT producto.usuario_username FROM producto
 				INNER JOIN detalle ON producto.id = detalle.id_producto
 				INNER JOIN factura ON factura.id = detalle.id_factura
 				WHERE factura.id = $idFactura" );
@@ -63,7 +63,7 @@ Class CoordinadorNotificacion
 				<p><img src='https://scontent-dfw.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/11204889_796310270499350_215609620662733233_n.jpg?oh=de7f27b60d444d8010a60b585d3142b8&oe=55E4B4E5'>";
 
 			$this->notifica->enviarEmail($correoVendedor,$asunto,$contenido);
-			
+
 
 		}catch(Exception $e){}
 
@@ -83,7 +83,7 @@ Class CoordinadorNotificacion
 		try
 		{
 			R::selectDatabase('default');
-			$correoComprador = R::getCell( "SELECT usuario.email FROM usuario 
+			$correoComprador = R::getCell( "SELECT usuario.email FROM usuario
 				WHERE usuario.nombre_usuario = '$nombreUsuario'" );
 
 			#$correoVendedor = R::getCell( "SELECT usuario.email FROM usuario WHERE usuario.nombre_usuario = '$nombreVendedor' LIMIT 1" );
@@ -93,7 +93,7 @@ Class CoordinadorNotificacion
 				<p><img src='https://scontent-dfw.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/11204889_796310270499350_215609620662733233_n.jpg?oh=de7f27b60d444d8010a60b585d3142b8&oe=55E4B4E5'>";
 
 			$this->notifica->enviarEmail($correoComprador,$asunto,$contenido);
-			
+
 
 		}catch(Exception $e){}
 
@@ -115,7 +115,7 @@ Class CoordinadorNotificacion
 			R::selectDatabase('default');
 			$usuariosVendedores = R::getAll( "SELECT DISTINCT usuario.email FROM usuario INNER JOIN producto ON producto.usuario_username = usuario.nombre_usuario" );
 			$destinos = array();
-			
+
 			foreach ($usuariosVendedores as $key) {
 				$destinos[] = $key['email'];
 			}
