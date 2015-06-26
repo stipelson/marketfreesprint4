@@ -359,7 +359,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
                 <?php
                   if($_SESSION['permisoDeGestionarPerfiles'] == 1 && $_SESSION['permisoDeGestionarUsuarios'] == 1 && $_SESSION['permisoDeVender'] == 1){
                     //El sistema mostrará al administrador por medio del Dashboard una gráfica de pastel, mostrando el número total de usuarios registrados en la aplicación, diferenciando en ella los usuarios dados de baja y los usuarios activos.
-                    echo '<option value="1">Usarios activos vs usuarios dados de Baja</option>';
+                    //echo '<option value="1">Usarios activos vs usuarios dados de Baja</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras, en donde se apreciaran las ganancias obtenidas por las ventas de los usuarios vendedores.
                     echo '<option value="2">Ganancia producida</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras donde se apreciará la cantidad de ventas por vendedor. (vendedor vs cantidad de ventas).

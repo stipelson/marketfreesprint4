@@ -46,7 +46,7 @@
             		  <td><?php echo $elementos['cliente']; ?></td>
             		  <td><?php echo $elementos['total']; ?></td>
             		  <td><?php echo $elementos['comision']; ?></td> 		  
-            		  <td><?php echo $elementos['comision']*$elementos['total']; ?></td>
+            		  <td><?php echo $elementos['comision']/100*$elementos['total']; ?></td>
             		   <td> <a  class="btn-flat tooltipped" name="aprobar" id="aprobar" href="../controladores/CoordinadorVenta.php?aprobar=<?php echo $elementos['id'].'&cliente='.$elementos['cliente'] ?>" data-tooltip="Aprobar compra" data-position="right"><i class="mdi-action-done small"></i></a></td>
             <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
   				 </tr> <?php 
