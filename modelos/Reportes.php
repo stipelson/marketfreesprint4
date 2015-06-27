@@ -94,7 +94,6 @@ class Reportes
 		$resultado = R::getAll( 'SELECT p.nombre, p.usuario_username, c.porcentaje, p.valor_unitario, d.cantidad
 								FROM factura f, detalle d, producto p, comision c
 								WHERE f.id = d.id_factura AND p.id = d.id_producto AND f.id_comision = c.id AND (f.estado = "enviado" OR f.estado = "Recibido") AND p.usuario_username = ?
-								GROUP BY p.id
 								ORDER BY p.usuario_username', [$usuario_username]);
 		R::close();#se cierra el almacén de Beans
 		return $resultado;
