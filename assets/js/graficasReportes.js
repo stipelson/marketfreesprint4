@@ -511,7 +511,7 @@ function GraficasReportes(reporte){
 		     // Tabla de datos: valores y etiquetas de la grÃ¡fica
 		    datos = [['Nombre', 'Ganancia']];
 			for (indice in resultado) {
-				ganancia = (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))*(parseInt(resultado[indice].porcentaje))/100;
+				ganancia = (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))-(parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario)) * parseInt(resultado[indice].porcentaje)/100;
 			 	datos.push([resultado[indice].nombre, ganancia]);
 			}
 
@@ -531,7 +531,7 @@ function GraficasReportes(reporte){
 		    tabla += '<tr>';
 
 		    for (indice in resultado) {
-		    	totalTodo += (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))*parseInt(resultado[indice].porcentaje)/100;
+		    	totalTodo += (parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario))-(parseInt(resultado[indice].cantidad)*parseInt(resultado[indice].valor_unitario)) * parseInt(resultado[indice].porcentaje)/100;
 		    }
 
 		    tabla += '<th>Total: </th><th>'+totalTodo+'</th>';
