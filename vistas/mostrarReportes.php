@@ -72,7 +72,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
             $resultado = urldecode($resultado);
             $resultado = unserialize($resultado);
           }else{
-            $resultado = $_GET['resultado'];
+            $resultado = $_SESSION['resultadoReporte'];
           }
          // var_dump($resultado);
 
