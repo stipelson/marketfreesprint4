@@ -67,7 +67,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
 
         if(isset($_GET['resultado'])){
           if($_SESSION['reporteElegido'] != 16 && $_SESSION['reporteElegido'] != 17 && $_SESSION['reporteElegido'] != 18){
-            $resultadoObtenido = $_GET['resultado'];
+            $resultadoObtenido = $_SESSION['resultadoReporte'];
             $resultado = stripslashes($resultadoObtenido);
             $resultado = urldecode($resultado);
             $resultado = unserialize($resultado);

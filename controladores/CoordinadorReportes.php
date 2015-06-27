@@ -1,6 +1,6 @@
 <?php
 	/**
-	* 	Esta clase se encarga de manejar los distintos reportes 
+	* 	Esta clase se encarga de manejar los distintos reportes
 	*/
 
 require_once '../modelos/Reportes.php';
@@ -8,7 +8,7 @@ require_once '../modelos/Reportes.php';
 class CoordinadorReportes
 {
 	private $modeloReportes;
-	
+
 	function __construct()
 	{
 		$this->modeloReportes = new Reportes();
@@ -97,14 +97,14 @@ class CoordinadorReportes
 
 if(isset($_POST['reporteElegido'])){
 	//echo $_POST['reporteElegido'];
-	
+
 	session_start();
 	$_SESSION['reporteElegido'] = $_POST['reporteElegido'];
-	$reporte = new CoordinadorReportes(); 
-	
+	$reporte = new CoordinadorReportes();
+
 	if($_POST['reporteElegido'] == 1){
 		$resultado = serialize($reporte->obtenerReporteCantidadUsuarios());
-	
+
 	}else if($_POST['reporteElegido'] == 2){
 		$resultado = serialize($reporte->obtenerGananciasPorVendedor());
 
@@ -145,11 +145,13 @@ if(isset($_POST['reporteElegido'])){
     	$resultado = serialize($reporte->obtenerMisProductosPorCategoria());
 
     }else if($_POST['reporteElegido'] == 15){
-    	$resultado = serialize($reporte->obtenerMisSeguidores());	
+    	$resultado = serialize($reporte->obtenerMisSeguidores());
     }
 
 	$resultado = urlencode($resultado);
-	header('Location: ../vistas/mostrarReportes.php?resultado='.$resultado);
+	header('Location: ../vistas/mostrarReportes.php?resultado=');
+	session_start();
+	$_SESSION["resultadoReporte"]=$resultado;
 }
 
 ?>
