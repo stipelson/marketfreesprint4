@@ -89,7 +89,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
                       reporte.graficaReporteCantidadUsuarios(".json_encode($resultado).");
                     </script>";
 
-              echo "<button id='genrapdf2' >Generar PDF</button>";
+              echo "<button id='genrapdf2' class='btn btn-default'>Generar PDF</button>";
               echo "<script>
                   $( '#genrapdf2' ).click(function() {
                     reporte = new GraficasReportes(".$_SESSION['reporteElegido'].");
@@ -359,7 +359,7 @@ if(isset($_SESSION['exitoCrearCategoria'])){
                 <?php
                   if($_SESSION['permisoDeGestionarPerfiles'] == 1 && $_SESSION['permisoDeGestionarUsuarios'] == 1 && $_SESSION['permisoDeVender'] == 1){
                     //El sistema mostrará al administrador por medio del Dashboard una gráfica de pastel, mostrando el número total de usuarios registrados en la aplicación, diferenciando en ella los usuarios dados de baja y los usuarios activos.
-                    //echo '<option value="1">Usarios activos vs usuarios dados de Baja</option>';
+                    echo '<option value="1">Usarios activos vs usuarios dados de Baja</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras, en donde se apreciaran las ganancias obtenidas por las ventas de los usuarios vendedores.
                     echo '<option value="2">Ganancia producida</option>';
           			    //El sistema mostrará al administrador por medio del Dashboard un diagrama de barras donde se apreciará la cantidad de ventas por vendedor. (vendedor vs cantidad de ventas).
@@ -369,7 +369,6 @@ if(isset($_SESSION['exitoCrearCategoria'])){
           			    //El sistema mostrará al comprador a través del Dashboard una lista de los articulos pendientes (por aprobar o por enviar).
                     echo '<option value="5">Articulos por aprobar o por enviar</option>';
         			    }
-
                   if($_SESSION['permisoDeVender'] == 1){
                     //El sistema mostrará al vendedor por medio del Dashboard una gráfica de barras (pedidos solicitados vs cantidad), mostrando cuántos pedidos ha tenido.
                     echo '<option value="6">Mis pedidos solicitados vs cantidad</option>';

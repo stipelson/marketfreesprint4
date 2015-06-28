@@ -2,8 +2,8 @@
 	/**
 	* 
 	*/
-	//require_once '../modelos/LogicaUsuario.php';
-	////require_once '../modelos/LogicaPerfil.php';
+	require_once '../modelos/Usuario.php';
+	require_once '../modelos/Perfil.php';
 	require_once '../modelos/ValidarConsultarUsuario.php';
 	require_once '../modelos/ValidarRegistrarUsuario.php';
 	require_once '../modelos/ValidarModificarUsuario.php';
@@ -117,6 +117,7 @@
 	}elseif (isset($_GET['down'])) {
 		$coordinador = new CoordinadorUsuario();
 		$coordinador->dardeBajaUsuario($_GET['down']);
+		header('Location: ../vistas/gestionarUsuarios.php');
 	}
 
 
@@ -131,8 +132,8 @@
 
 		public function __construct()
 		{
-			//$this->logicaUsuario = new LogicaUsuario();
-			//$this->logicaPerfil = new LogicaPerfil();
+			$this->logicaUsuario = new Usuario();
+			$this->logicaPerfil = new Perfil();
 			$this->validarConsultarUsuario = new ValidarConsultarUsuario();
 			$this->validarRegistrarUsuario = new ValidarRegistrarUsuario();
 			$this->validarLogin = new ValidarLogin();
@@ -285,7 +286,7 @@
 		
 		public function dardeBajaUsuario($idUsuario) //$idUsuario:int
 		{
-			$this->logicaUsuario->validarDardeBajaUsuario($idUsuario);
+			$this->logicaUsuario->dardeBajaUsuario($idUsuario);
 		}
 	}
 ?>
